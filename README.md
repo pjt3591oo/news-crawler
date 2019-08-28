@@ -112,3 +112,23 @@ searchSection의 경우 검색범위를 하나만 넣을경우 `0003`의 형태�
 ## MBC 
 
 (MBC 뉴스)[http://search.imnews.imbc.com:8180/news/search.jsp]
+
+
+* URL 구조분석
+
+http://search.imnews.imbc.com:8180/news/search.jsp?kwd=%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8&date=all&category=TOTAL&subCategory=ALL&pageNum=2&sort=d&detailSearch=false
+
+```
+cate_top: 분류별 (정치: politics, 국제: world, 사회: society, 경제/과학: economy, 문화/연예: culture, 스포츠: sport)
+newsprog_top: 프로그램별 (뉴스: newsproc, 다시보기: program, 위클리: weekly, 엠빅뉴스: mspecial, 더보기: etc)
+startDate: yyyymmdd
+endDate: yyyymmdd
+kwd: 검색어
+sort: 정렬 (최신순: d, 정확도순: r)
+detailSearch: true
+category: TOTAL
+subCategory: ALL
+pageNum: 1
+date: detail
+period: 7
+```
