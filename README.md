@@ -141,6 +141,8 @@ period: 7
 
 * URL 구조분석
 
+http://jtbc.joins.com/search/news?source=any&term=%EC%95%BC%EA%B5%AC
+
 ```
 field: 검색영역 (전체: any, 제목: title, 내용: contents, 기자명: reporter, 키워드: keyword)
 section: 검색분야 (전체: any, 정치: politics, 경제: economy, 사회: social, 국제: international, 문화: culture, 연예: enter, 스포츠: sport, 날씨: weather)

@@ -2,13 +2,17 @@ import requests as rq
 from bs4 import BeautifulSoup
 
 BASE_URL = 'http://jtbc.joins.com/search/news?'
-QUERY_URL = 'page=%d&term=%s'
+QUERY_URL = 'page=%d&term=%s&filed=%s&section=%s&source=%s&sort=%s'
 
 PAGE = 1
 TERM = "야구"
+FIELD = 'any'
+SECTION = 'any'
+SOURCE = 'any'
+SORT = 'latest'
 
 while True:
-  URL = BASE_URL + QUERY_URL%(PAGE, TERM)
+  URL = BASE_URL + QUERY_URL%(PAGE, TERM, FIELD, SECTION, SOURCE, SORT)
 
   res = rq.get(URL)
   soup = BeautifulSoup(res.content, 'lxml')
