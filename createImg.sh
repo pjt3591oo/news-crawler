@@ -1,0 +1,1 @@
+docker build -t news.crawler -f ./Docker/Dockerfile .

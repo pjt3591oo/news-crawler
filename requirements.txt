@@ -1,0 +1,5 @@
+beautifulsoup4==4.7.1
+bs4==0.0.1
+konlpy==0.5.1
+lxml==4.3.4
+requests==2.21.0
