@@ -1,75 +1,77 @@
 import requests as rq
 from bs4 import BeautifulSoup
-
 import json
 import math
+import pprint
 
-BASE_URL = 'https://reco.kbs.co.kr/v2/search?'
-QUERY_URL = 'target=%s&keyword=%s&prev=%s&page=%d&page_size=%d&sort_option=%s&searchfield=%s&sdate=%s&edate=%s&categoryfield=%s&_=%s'
+class KBS:
 
-TARGET="newstotal"
-KEYWORD="블록체인"
-PREV=''
-PAGE=1
-PAGE_SIZE=10
-SORT_OPTION="date"
-SEARCHFIELD="all"
-SDATE="1987.01.01"
-EDATE="2019.08.27"
-CATEGORYFIELD=''
-_=1566887156844
+  def __init__(self, keyword):
+    self.BASE_URL = 'https://reco.kbs.co.kr/v2/search?'
+    self.QUERY_URL = 'target=%s&keyword=%s&prev=%s&page=%d&page_size=%d&sort_option=%s&searchfield=%s&sdate=%s&edate=%s&categoryfield=%s&_=%s'
 
-while True:
-  URL = BASE_URL + QUERY_URL%(TARGET, KEYWORD, PREV, PAGE, PAGE_SIZE, SORT_OPTION, SEARCHFIELD, SDATE, EDATE, CATEGORYFIELD, _)
+    self.TARGET="newstotal"
+    self.keyword=keyword
+    self.PREV=''
+    self.page=1
+    self.PAGE_SIZE=10
+    self.SORT_OPTION="date"
+    self.SEARCHFIELD="all"
+    self.SDATE=""
+    self.EDATE=""
+    self.CATEGORYFIELD=''
+    self._=1566887156844
 
-  res = rq.get(URL)
-  items = res.json()
+  def __call__(self, **kwargs):
+    self.page = self.__is_key(kwargs, 'page') and kwargs['page'] or self.page
+    URL = self.BASE_URL + self.QUERY_URL%(self.TARGET, self.keyword, self.PREV, self.page, self.PAGE_SIZE, self.SORT_OPTION, self.SEARCHFIELD, self.SDATE, self.EDATE, self.CATEGORYFIELD, self._)
 
-  total_count = items["total_count"]
+    res = rq.get(URL)
+    items = res.json()
 
-  for item in items['data']:
+    contents = items['data']
+    temp = []
+
+    for content in contents:
+      temp.append(self.__format(content))
+      
+    self.page += 1
+
+    return temp
+
+  def __format(self, content):
+    contents_id = content.get('contents_id')
+    title = content.get('title')
+    image_w = content.get('image_w')
+    target_url = content.get('target_url')
+    text = content.get('contents')
+    date = content.get('service_time')
+    pprint.pprint(content)
     
-    contents_id = item.get('contents_id')
-    title = item.get('title')
-    image_h = item.get('image_h')
-    image_s = item.get('image_s')
-    image_o = item.get('image_o')
-    target_url = item.get('target_url')
-    source_code = item.get('source_code')
-    section_code_name = item.get('section_code_name')
-    section_code = item.get('section_code')
-    root_contents_code = item.get('root_contents_code')
-    root_contents_code_name = item.get('root_contents_code_name')
-    service_time = item.get('service_time')
-    vod_yn = item.get('vod_yn')
-    broad_yn = item.get('broad_yn')
-    view_count = item.get('view_count')
-    rdatetime = item.get('rdatetime')
-    source = item.get('source')
-    score = item.get('score')
+    return {
+      "link": target_url,
+      "img": image_w,
+      "title": title,
+      "text": text,
+      "info": "[] "+ date
+    }
 
-    print('contents_id : ', contents_id)
-    print('title : ', title)
-    print('image_h : ', image_h)
-    print('image_s : ', image_s)
-    print('image_o : ', image_o)
-    print('target_url : ', target_url)
-    print('source_code : ', source_code)
-    print('section_code_name : ', section_code_name)
-    print('section_code : ', section_code)
-    print('root_contents_code : ', root_contents_code)
-    print('root_contents_code_name : ', root_contents_code_name)
-    print('service_time : ', service_time)
-    print('vod_yn : ', vod_yn)
-    print('broad_yn : ', broad_yn)
-    print('view_count : ', view_count)
-    print('rdatetime : ', rdatetime)
-    print('source : ', source)
-    print('score : ', score)
+  def init(self, keyword):
+    self.page = 1
+    self.keyword = keyword
 
-  print('========================= %d / %d ========================='%(PAGE, math.ceil(total_count / 10)))
-  
-  if PAGE * PAGE_SIZE > total_count : break
-  PAGE += 1
+  def get_info(self):
+    return {
+      "page": self.page,
+      "keyword": self.keyword
+    }
 
-  print(total_count)
+  def __is_key(self, dictionary, key):
+    return key in dictionary.keys()
+
+if __name__ == "__main__": 
+  crawler_kbs = KBS("야구")
+  data = crawler_kbs(page = 3)
+  pprint.pprint(data)
+
+  pprint.pprint(crawler_kbs.get_info())
