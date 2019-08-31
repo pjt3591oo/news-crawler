@@ -5,10 +5,12 @@ import pprint
 class JTBC:
 
   def __init__(self, keyword):
+    self.news = 'JTBC'
+
     self.BASE_URL = 'http://jtbc.joins.com/search/news?'
     self.QUERY_URL = 'page=%d&term=%s&filed=%s&section=%s&source=%s&sort=%s'
     self.page = 1
-    self.term = keyword
+    self.keyword = keyword
     self.filed = 'any'
     self.section = 'any'
     self.source = 'any'
@@ -16,7 +18,7 @@ class JTBC:
 
   def __call__(self, **kwargs):
     self.page = self.__is_key(kwargs, 'page') and kwargs['page'] or self.page
-    URL = self.BASE_URL + self.QUERY_URL % (self.page, self.term, self.filed, self.section, self.source, self.sort)
+    URL = self.BASE_URL + self.QUERY_URL % (self.page, self.keyword, self.filed, self.section, self.source, self.sort)
 
     res = rq.get(URL)
     soup = BeautifulSoup(res.content, 'lxml')
@@ -51,7 +53,7 @@ class JTBC:
 
   def init(self, keyword):
     self.page = 1
-    self.term = keyword
+    self.keyword = keyword
 
   def __is_key(self, dictionary, key):
     return key in dictionary.keys()
@@ -59,7 +61,7 @@ class JTBC:
   def get_info(self):
     return {
         "page": self.page,
-        "keyword": self.term
+        "keyword": self.keyword
     }
 
 

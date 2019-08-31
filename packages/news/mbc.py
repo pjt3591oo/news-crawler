@@ -5,14 +5,15 @@ import pprint
 class MBC:
 
   def __init__(self, keyword):
+    self.news = 'MBC'
     self.BASE_URL = "http://search.imnews.imbc.com:8180/news/search.jsp?"
     self.QUERY_URL = "kwd=%s&date=all&category=TOTAL&subCategory=ALL&pageNum=%d&sort=d&detailSearch=false"
     self.page = 1
-    self.kwd = keyword
+    self.keyword = keyword
 
   def __call__(self, **kwargs):
     self.page = self.__is_key(kwargs, 'page') and kwargs['page'] or self.page
-    URL = self.BASE_URL + self.QUERY_URL%(self.kwd, self.page)
+    URL = self.BASE_URL + self.QUERY_URL%(self.keyword, self.page)
 
     res = rq.get(URL)
 
@@ -46,12 +47,12 @@ class MBC:
 
   def init(self, keyword):
     self.page = 1
-    self.kwd = keyword
+    self.keyword = keyword
 
   def get_info(self):
     return {
       "page": self.page,
-      "keyword": self.kwd
+      "keyword": self.keyword
     }
 
   def __is_key(self, dictionary, key):

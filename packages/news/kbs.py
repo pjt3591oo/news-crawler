@@ -7,6 +7,7 @@ import pprint
 class KBS:
 
   def __init__(self, keyword):
+    self.news = 'KBS'
     self.BASE_URL = 'https://reco.kbs.co.kr/v2/search?'
     self.QUERY_URL = 'target=%s&keyword=%s&prev=%s&page=%d&page_size=%d&sort_option=%s&searchfield=%s&sdate=%s&edate=%s&categoryfield=%s&_=%s'
 
@@ -40,13 +41,11 @@ class KBS:
     return temp
 
   def __format(self, content):
-    contents_id = content.get('contents_id')
-    title = content.get('title')
-    image_w = content.get('image_w')
-    target_url = content.get('target_url')
-    text = content.get('contents')
-    date = content.get('service_time')
-    pprint.pprint(content)
+    title = content.get('title', '')
+    image_w = type(content.get('image_w')) == type(None) and ' ' or content.get('image_w') 
+    target_url = content.get('target_url', '')
+    text = content.get('contents', '')
+    date = content.get('service_time', '')
     
     return {
       "link": target_url,

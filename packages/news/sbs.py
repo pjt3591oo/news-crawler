@@ -5,6 +5,8 @@ import pprint
 class SBS:
 
   def __init__(self, keyword):
+    self.news = 'SBS'
+
     self.BASE_URL = 'https://news.sbs.co.kr/news/search/main.do?'
     self.QUERY_URL = 'pageIdx=%d&searchTermStartDate=%s&searchTermEndDate=%s&query=%s&collection=%s&searchOption=%d&searchSection=%s'
 
@@ -14,7 +16,7 @@ class SBS:
     } 
 
     self.page = 1
-    self.query = keyword
+    self.keyword = keyword
     self.COLLECTION = 'nnews'
     self.SORT=  'date'
     self.SEARCHTERMSTARTDATE = ''
@@ -24,7 +26,7 @@ class SBS:
 
   def __call__(self, **kwargs):
     self.page = self.__is_key(kwargs, 'page') and kwargs['page'] or self.page
-    URL = self.BASE_URL + self.QUERY_URL%(self.page, self.SEARCHTERMSTARTDATE, self.SEARCHTERMENDDATE, self.query, self.COLLECTION, self.SEARCHOPTION, "|".join(self.SEARCHSECTION) )
+    URL = self.BASE_URL + self.QUERY_URL%(self.page, self.SEARCHTERMSTARTDATE, self.SEARCHTERMENDDATE, self.keyword, self.COLLECTION, self.SEARCHOPTION, "|".join(self.SEARCHSECTION) )
 
     res = rq.get(URL, headers=self.HEADERS)
 
@@ -58,12 +60,12 @@ class SBS:
 
   def init(self, keyword):
     self.page = 1
-    self.query = keyword
+    self.keyword = keyword
 
   def get_info(self):
     return {
       "page": self.page,
-      "keyword": self.query
+      "keyword": self.keyword,
     }
 
   def __is_key(self, dictionary, key):

@@ -4,7 +4,7 @@ from konlpy.utils import pprint
 kkma = Kkma()
 
 
-def parse(text):
+def word_extraction(text):
   temp = {}
   for result in kkma.pos(text) :
     temp.setdefault(result[1], [])
@@ -19,6 +19,6 @@ if __name__ == '__main__':
   ]
   
   for text in texts:
-    words = parse(text)
+    words = word_extraction(text)
     pprint(text)
     pprint(words)
