@@ -18,7 +18,7 @@ def save_file(filename, head, data) :
 def dict_to_list(origin, head):
   temp = []
   for column in head:
-    temp.append(origin[column])
+    temp.append(origin[column].replace(',', ''))
   # print(origin['img'], temp[2])
   return temp
 

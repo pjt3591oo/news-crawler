@@ -42,8 +42,10 @@ class Crawler():
     new_keywords = list(set(new_keyswords.get('NNP', [])))
     
     if len(new_keywords):
+      prev_keyword = self.crawlers[self.target].keyword
       new_keyword = self.__random_select(new_keywords)
       self.crawlers[self.target].init(new_keyword)
+      print('** keyword change %s: %s => %s**'%(self.target, prev_keyword, new_keyword))
 
   def __random_select(self, data):
     return random.choice(list(data))
