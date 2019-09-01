@@ -10,6 +10,8 @@ from models.save import save_file
 import pprint
 import random
 
+from lazyme.string import color_print
+
 class Crawler():
 
   def __init__(self):
@@ -45,7 +47,7 @@ class Crawler():
       prev_keyword = self.crawlers[self.target].keyword
       new_keyword = self.__random_select(new_keywords)
       self.crawlers[self.target].init(new_keyword)
-      print('** keyword change %s: %s => %s**'%(self.target, prev_keyword, new_keyword))
+      color_print('** keyword change %s: %s => %s**'%(self.target, prev_keyword, new_keyword), color='yellow')
 
   def __random_select(self, data):
     return random.choice(list(data))
@@ -66,7 +68,7 @@ class Crawler():
     return self.crawlers[self.target].get_info()
 
   def show_info(self):
-    print('page: %s, new: %s, keyword: %s'%(self.crawlers[self.target].page, self.target, self.crawlers[self.target].keyword))
+    color_print('page: %s, new: %s, keyword: %s'%(self.crawlers[self.target].page, self.target, self.crawlers[self.target].keyword), color="green")
 
 if __name__ == "__main__":
   c1 = Crawler()
