@@ -18,6 +18,7 @@ $ cd news-crawler
 
 ```bash
 $ pip install -r requirements.txt
+$ python crawler.py
 ```
 
 logs 디렉터리로 수집 데이터 로그가 쌓임
@@ -60,4 +61,5 @@ $ filebeat -e -c filebeat.yml -d "publish"
 설정파일 위치 
 
 MAC: **`/usr/local/etc/filebeat/`**
+
 ubuntu: **`/etc/filebeat/`**
