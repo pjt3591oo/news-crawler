@@ -1,0 +1,65 @@
+version: '2.2'
+
+networks:
+  somenetwork:
+
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:7.3.0
+    environment:
+      - discovery.type=single-node
+    networks:
+      - somenetwork
+    ports:
+      - 9200:9200
+      - 9300:9300
+    stdin_open: true
+    tty: true
+  
+  # elasticsearch:
+  #   container_name: elasticsearch
+  #   image: nacyot/elasticsearch-korean
+  #   environment:
+  #     - discovery.type=single-node
+  #   networks:
+  #     - somenetwork
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
+  #   stdin_open: true
+  #   tty: true
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.3.0
+    networks:
+      - somenetwork
+    ports:
+      - 5601:5601
+    stdin_open: true
+    tty: true
+    depends_on:
+      - elasticsearch
+
+  # news.logstash.com:
+  #   container_name: news.logstash.com
+  #   image: logstash:7.3.1
+  #   networks:
+  #       - somenetwork
+  #   ports:
+  #     - 5044:5044
+  #   depends_on:
+  #     - elasticsearch
+
+  # crawler:
+  #     container_name: crawler
+  #     image: news.crawler
+  #     networks:
+  #       - somenetwork
+  #     stdin_open: true
+  #     tty: true
+  #     volumes:
+  #       - ./logs/:/news-crawler/logs/
+  #     depends_on:
+  #       - news.logstash.com

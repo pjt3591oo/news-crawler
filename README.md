@@ -4,6 +4,8 @@
 
 1. [사이트 분석](./docs/site_analysis.md)
 2. [시스템 구조](./docs/system_architecture.md)
+3. usage
+4. pipeline 구축
 
 ## usage
 
@@ -12,24 +14,50 @@ $ git clone https://github.com/pjt3591oo/news-crawler.git
 $ cd news-crawler
 ```
 
-* 로컬실행 
+* 로컬 크롤러 실행
 
 ```bash
 $ pip install -r requirements.txt
 ```
 
+logs 디렉터리로 수집 데이터 로그가 쌓임
+
+* pipeline 전체실행
+
 ```bash
-$ python crawler.py
+$ ./start.sh
 ```
 
-* 도커실행
+## step by step
 
-```bash
-$ ./craeteImg.sh
+* crawler(filebeat), logstash 실행
+
 ```
-
-```bash
+$ ./createImg.sh
 $ ./createContainer.sh
 ```
 
-logs 디렉터리로 수집 데이터 로그가 쌓임
+* elsasticsearch
+
+```
+$ docker-compose up
+```
+
+## pipeline 구축
+
+* logstash 실행
+
+```bash
+$ logstash -r -f ./pipeline/logstash/pipeline.conf
+```
+
+* filebeat 실행
+
+```bash
+$ filebeat -e -c filebeat.yml -d "publish"
+```
+
+설정파일 위치 
+
+MAC: **`/usr/local/etc/filebeat/`**
+ubuntu: **`/etc/filebeat/`**
