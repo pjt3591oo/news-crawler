@@ -1,6 +1,6 @@
 beautifulsoup4==4.7.1
 bs4==0.0.1
 konlpy==0.5.1
-lxml==4.6.2
+lxml==4.6.3
 requests==2.21.0
 lazyme==0.0.22
